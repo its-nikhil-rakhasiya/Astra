@@ -1,0 +1,23 @@
+# ----------------------------------------------------------------------
+# Apache Pretty/Clean URLs Configuration for Astra (Local XAMPP)
+# ----------------------------------------------------------------------
+
+# Enable URL rewriting
+RewriteEngine On
+
+# Set the base directory path (relative to the local server root)
+RewriteBase /Astra/
+
+# 1. Redirect trailing slash for non-directories (e.g. /Astra/index/ -> /Astra/index)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} ^/Astra/(.+)/$
+RewriteRule ^(.*)/$ $1 [R=301,L]
+
+# 2. Redirect external requests for direct PHP files to clean URLs (e.g. /Astra/about.php -> /Astra/about)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/Astra/([^.]+)\.php [NC]
+RewriteRule ^%1 [R=301,L]
+
+# 3. Internally rewrite clean URLs back to PHP files if the corresponding PHP file exists
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php [L]
